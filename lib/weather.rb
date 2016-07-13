@@ -12,8 +12,9 @@ weather_res = Excon.get(
     'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0'
   }
 )
-
-weather = JSON.parse(json_weather) if weather_res.body =~ /=\s+(?<json_weather>.*)/
+if weather = /=\s+(?<json_weather>.*)/.match(weather_res.body)
+  weather = JSON.parse(weather[:json_weather])
+end
 puts "#{TimeFormater.now} res : #{weather}"
 puts "#{TimeFormater.now} cityname : #{weather['cityname']}"
 
